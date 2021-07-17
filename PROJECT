@@ -1,0 +1,6 @@
+domain: k8s.io
+layout:
+- go.kubebuilder.io/v3
+projectName: sample-controller-kebebuilder
+repo: github.com/sanoyo/sample-controller-kebebuilder
+version: "3"
