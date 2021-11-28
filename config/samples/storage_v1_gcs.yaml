@@ -1,0 +1,7 @@
+apiVersion: storage.yo.gcs/v1
+kind: Gcs
+metadata:
+  name: gcs-sample
+spec:
+  # Add fields here
+  foo: bar

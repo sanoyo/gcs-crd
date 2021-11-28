@@ -1,0 +1,24 @@
+# permissions for end users to edit gcs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gcs-editor-role
+rules:
+- apiGroups:
+  - storage.yo.gcs
+  resources:
+  - gcs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - storage.yo.gcs
+  resources:
+  - gcs/status
+  verbs:
+  - get

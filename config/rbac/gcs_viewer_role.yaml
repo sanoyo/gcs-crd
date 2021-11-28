@@ -1,0 +1,20 @@
+# permissions for end users to view gcs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gcs-viewer-role
+rules:
+- apiGroups:
+  - storage.yo.gcs
+  resources:
+  - gcs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - storage.yo.gcs
+  resources:
+  - gcs/status
+  verbs:
+  - get
