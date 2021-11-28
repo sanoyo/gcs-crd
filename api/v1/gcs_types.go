@@ -25,18 +25,12 @@ import (
 
 // GcsSpec defines the desired state of Gcs
 type GcsSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Gcs. Edit gcs_types.go to remove/update
 	ProjectID  string `json:"projectID"`
 	BucketName string `json:"bucketName"`
 }
 
 // GcsStatus defines the observed state of Gcs
 type GcsStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
 	ProjectID  string `json:"projectID"`
 	BucketName string `json:"bucketName"`
 }

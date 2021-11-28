@@ -19,10 +19,13 @@ package controllers
 import (
 	"context"
 
+	"cloud.google.com/go/storage"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	storagev1 "github.com/sanoyo/gcs-crd/api/v1"
 )
@@ -50,6 +53,30 @@ func (r *GcsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	_ = log.FromContext(ctx)
 
 	// your logic here
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		// TODO: handle error.
+	}
+
+	instance := &storagev1.Gcs{}
+	err = r.Get(context.TODO(), req.NamespacedName, instance)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return reconcile.Result{}, nil
+		}
+		// Error reading the object - requeue the request.
+		return reconcile.Result{}, err
+	}
+
+	// TODO: エラーハンドリングを追加する
+	projectID := instance.Spec.ProjectID
+	bucketName := instance.Spec.BucketName
+
+	if err := client.Bucket(bucketName).Create(ctx, projectID, nil); err != nil {
+		// TODO: handle error.
+	}
 
 	return ctrl.Result{}, nil
 }
