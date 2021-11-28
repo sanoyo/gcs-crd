@@ -36,6 +36,10 @@ type GcsReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+var (
+	setupLog = ctrl.Log.WithName("setup")
+)
+
 //+kubebuilder:rbac:groups=storage.yo.gcs,resources=gcs,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=storage.yo.gcs,resources=gcs/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=storage.yo.gcs,resources=gcs/finalizers,verbs=update
@@ -55,27 +59,26 @@ func (r *GcsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	// your logic here
 	client, err := storage.NewClient(ctx)
 	if err != nil {
-		// TODO: handle error.
+		setupLog.Error(err, "failed to initialize gcs")
 	}
 
 	instance := &storagev1.Gcs{}
 	err = r.Get(context.TODO(), req.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			// Object not found, return.  Created objects are automatically garbage collected.
-			// For additional cleanup logic use finalizers.
 			return reconcile.Result{}, nil
 		}
-		// Error reading the object - requeue the request.
 		return reconcile.Result{}, err
 	}
 
-	// TODO: エラーハンドリングを追加する
+	if instance.Spec.ProjectID == "" || instance.Spec.BucketName == "" {
+		setupLog.Error(err, "bad argument")
+	}
 	projectID := instance.Spec.ProjectID
 	bucketName := instance.Spec.BucketName
 
 	if err := client.Bucket(bucketName).Create(ctx, projectID, nil); err != nil {
-		// TODO: handle error.
+		setupLog.Error(err, "failed to create bucket")
 	}
 
 	return ctrl.Result{}, nil
