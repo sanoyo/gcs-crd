@@ -1,0 +1,6 @@
+domain: yo.gcs
+layout:
+- go.kubebuilder.io/v3
+projectName: gcs-crd
+repo: github.com/sanoyo/gcs-crd
+version: "3"
