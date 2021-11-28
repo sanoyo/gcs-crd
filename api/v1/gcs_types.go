@@ -29,13 +29,16 @@ type GcsSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Gcs. Edit gcs_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	ProjectID  string `json:"projectID"`
+	BucketName string `json:"bucketName"`
 }
 
 // GcsStatus defines the observed state of Gcs
 type GcsStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	ProjectID  string `json:"projectID"`
+	BucketName string `json:"bucketName"`
 }
 
 //+kubebuilder:object:root=true
