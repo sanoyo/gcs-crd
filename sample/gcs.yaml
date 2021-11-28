@@ -1,0 +1,7 @@
+apiVersion: storage.yo.gcs/v1
+kind: Gcs
+metadata:
+  name: gcs-sample
+spec:
+  projectID: <<set-your-gcp-projectid>>
+  bucketName: <<set-your-gcs-bucket-name>>
