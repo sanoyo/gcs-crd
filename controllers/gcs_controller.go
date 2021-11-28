@@ -56,14 +56,8 @@ var (
 func (r *GcsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// your logic here
-	client, err := storage.NewClient(ctx)
-	if err != nil {
-		setupLog.Error(err, "failed to initialize gcs")
-	}
-
 	instance := &storagev1.Gcs{}
-	err = r.Get(context.TODO(), req.NamespacedName, instance)
+	err := r.Get(context.TODO(), req.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			return reconcile.Result{}, nil
@@ -76,6 +70,11 @@ func (r *GcsReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	}
 	projectID := instance.Spec.ProjectID
 	bucketName := instance.Spec.BucketName
+
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		setupLog.Error(err, "failed to initialize gcs")
+	}
 
 	if err := client.Bucket(bucketName).Create(ctx, projectID, nil); err != nil {
 		setupLog.Error(err, "failed to create bucket")
