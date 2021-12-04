@@ -9,7 +9,7 @@ kind: Gcs
 metadata:
   name: gcs-sample
 spec:
-  projectID: 	prod-okan
+  projectID: projectID
   bucketName: sample-name-yo
 ```
 
